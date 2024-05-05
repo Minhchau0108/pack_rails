@@ -63,3 +63,7 @@ group :development do
   # gem "spring"
 end
 
+gem "packs-rails"
+gem "packwerk", "~> 3.2"
+
+gem 'graphwerk', group: %i[development test]
