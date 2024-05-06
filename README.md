@@ -1,6 +1,6 @@
-# Modular Monolith
+# Modular Monolith Rails
 
-This project serves as a learning resource for organizing a modular monolith Rails application using `rails-pack` and `packwerk`.
+This project serves as a learning code for organizing a modular monolith Rails application using `rails-pack` and `packwerk`.
 
 Within the `packs` folder, we have two applications: `landing` and `authentication`.
 
@@ -76,7 +76,7 @@ public_path: public/
 # A list of this package's dependencies
 # Note that packages in this list require their own `package.yml` file
 dependencies:
-- '.
+- '.'
 ```
 
 ### `Authentication` app
@@ -93,6 +93,8 @@ Inside the `packs` folder, create a `authentication` folder.
     database: rails_packs_authentication_development
     migrations_paths: db/authenticate_migrate
 ```
+
+For more details, see the section below titled "Multiple Databases".
 
 3. Create a User table
 
