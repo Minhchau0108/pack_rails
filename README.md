@@ -28,11 +28,60 @@ The diagram below provides a visual representation of how these modules interact
 
 ![Packwerk Diagram](packwerk.png)
 
+This is steps to setup multiple module structures with `rails-packs`
+
+1. Add the required gems to the Gemfile:
+
+```ruby
+gem 'packs-rails'
+gem 'packwerk'
+```
+
+2. Initialize packwerk
+
+```ruby
+bundle binstub packwerk
+bin/packwerk init
+```
+
+### `Landing` app
+
+1. Create a new location for the `landing` module:
+
+First, create a `packs` folder at the root of your project.
+Inside the `packs` folder, create a `landing` folder.
+
+2. Create a Landing page
+
+```
+bin/rails g controller landing index
+```
+
+3. Move the controllers, views, and helpers related to the `landing` page into the new `landing` app. Ensure that the file structure within the landing module follows the standard Rails conventions.
+
+4. Create `package.yml` to configure the package
+
+```ruby
+# Turn on dependency checks for this package
+enforce_dependencies: true
+
+# Turn on privacy checks for this package
+enforce_privacy: true
+
+# this allows you to modify what your package's public path is within the package
+public_path: public/
+
+# A list of this package's dependencies
+# Note that packages in this list require their own `package.yml` file
+dependencies:
+- '.
+```
+
 # Multiple Databases
 
-In keeping with the modular structure of our application, we've also adopted a multiple database approach. This means that each module in the application has its own dedicated database. This allows each module to manage its own data independently, further enhancing the separation of concerns within our application.
+In keeping with the modular structure of our application, we've also adopted a multiple database approach.
 
-For instance, the `authentication` modules each have their own databases which manages data related to user accounts and authentication.
+This means that each module in the application has its own dedicated database. This allows each module to manage its own data independently, further enhancing the separation of concerns within our application. For instance, the `authentication` modules each have their own databases which manages data related to user accounts and authentication.
 
 This approach has several benefits:
 
@@ -40,7 +89,7 @@ This approach has several benefits:
 - **Scalability:** It's easier to scale a specific module's database as the module's data needs grow.
 - **Maintainability:** Database schema changes in one module won't affect the others, making the application easier to maintain.
 
-Our application uses a multiple database setup, with each module having its own dedicated database. This is configured in the `database.yml` file. Here's an example of how it's set up for the `development` environment:
+Here's an example of how it's set up for the `development` environment:
 
 ```yaml
 development:
@@ -70,8 +119,6 @@ In this configuration:
 
 The `migrations_paths` option in the authentication database configuration specifies the path to the migrations for the authentication module. This allows Rails to correctly locate the migrations for each module.
 
-This setup allows each module to manage its own data independently, enhancing the separation of concerns within our application.
-
 The migration command for the `primary` database is:
 
 ```
@@ -95,3 +142,64 @@ Then, to run the migration specifically for the `authentication` module, we woul
 ```
 bin/rails db:migrate:authentication
 ```
+
+# Setting Up Packwerk for Boundaries
+
+Packwerk has already been installed in our project. It's used to enforce boundaries between different parts of our application.
+
+To verify that our packages (modules) have been clearly and correctly defined, you can run the following command:
+
+```bash
+bin/packwerk check
+```
+
+In case, you want to visualize your package design, using graphwerk
+
+```bash
+bundle add graphwerk
+gem 'graphwerk', group: %i[development test]
+bundle install
+bundle exec rake graphwerk:update
+```
+
+Now you can open packwerk.png and see the code structure and dependencies.
+
+![Packwerk Diagram](packwerk.png)
+
+# Each Module Has Its Own config/routes File
+
+In our application, each module has its own configuration and routes file. This allows each module to define its own settings and URL routing independently from the rest of the application, enhancing the separation of concerns and making the modules more self-contained.
+
+For instance, the `landing` module might have a `config/routes/landing.rb` file that defines the routes for the landing page, while the `authentication` module might have its own `config/routes/authentication.rb` file that defines the routes for sign up, log in, and log out functionality.
+
+Here's an example of what an app's `config/routes.rb` file might look like:
+
+```ruby
+Rails.application.routes.draw do
+  draw :landing
+  draw :authentication
+end
+```
+
+The `landing` module's route configuration might look like this:
+
+```ruby
+scope :landing do
+  get '/index', to: 'landing#index'
+end
+
+```
+
+You can view the landing page at the following URL: http://localhost:3000/landing/index
+
+The `authentication` module's route configuration might look like this:
+
+```ruby
+
+scope :authentication do
+  resources :users
+end
+
+```
+
+You can view the user list page at the following URL: http://localhost:3000/authentication/users
