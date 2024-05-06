@@ -79,6 +79,32 @@ dependencies:
 - '.
 ```
 
+### `Authentication` app
+
+1. Create a new location for the `authentication` module:
+
+Inside the `packs` folder, create a `authentication` folder.
+
+2. Set up `authentication` database for this module
+
+```ruby
+  authentication:
+    <<: \*default
+    database: rails_packs_authentication_development
+    migrations_paths: db/authenticate_migrate
+```
+
+3. Create a User table
+
+```
+  rails generate model User name:string email:string --database authentication
+
+```
+
+4. Move the controllers, views, and models related to authentication into the new `authentication` app in the `packs` folder. Ensure that the file structure within the authentication module follows the standard Rails conventions.
+
+5. Create `package.yml` to configure the package
+
 # Multiple Databases
 
 In keeping with the modular structure of our application, we've also adopted a multiple database approach.
@@ -138,7 +164,7 @@ bin/rails db:migrate:authentication
 For example, if we want to create a `users` table for the `authentication` module, we would use the following command:
 
 ```
-rails generate model User id:primary_key name:string email:string --database authentication
+rails generate model User name:string email:string --database authentication
 ```
 
 Then, to run the migration specifically for the `authentication` module, we would use:
@@ -174,7 +200,7 @@ Now you can open `packwerk.png` and see the code structure and dependencies.
 
 In our application, each module has its own configuration and routes file. This allows each module to define its own settings and URL routing independently from the rest of the application, enhancing the separation of concerns and making the modules more self-contained.
 
-For instance, the `landing` module might have a `config/routes/landing.rb` file that defines the routes for the landing page, while the `authentication` module might have its own `config/routes/authentication.rb` file that defines the routes for sign up, log in, and log out functionality.
+For instance, the `landing` module might have a `config/routes/landing.rb` file that defines the routes for the landing page, while the `authentication` module might have its own `config/routes/authentication.rb` file that defines the routes for users' functionality.
 
 Here's an example of what an app's `config/routes.rb` file might look like:
 
