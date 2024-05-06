@@ -20,8 +20,21 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  <<: *default
-  database: rails_pack_packwerk_development
+  primary:
+    <<: *default
+    database: rails_pack_packwerk_development
+    host: localhost
+    port: 5432
+    username: postgres
+    password: 123
+  authentication:
+    <<: *default
+    database: rails_packs_authentication_development
+    host: localhost
+    port: 5432
+    username: postgres
+    password: 123
+    migrations_paths: db/authenticate_migrate
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
