@@ -15,12 +15,13 @@ Within the `packs` folder, we have two applications: `landing` and `authenticati
 
 # Multiple Modules Structures
 
-In this application, we've adopted a modular structure. This means that the application is divided into multiple modules, each responsible for a distinct feature of the application. This structure helps us maintain a high level of organization and separation of concerns within the codebase.
+In this application, we've adopted a modular structure. This means that the application is divided into multiple modules, each responsible for a distinct feature of the application.
 
-The modules in this application are contained within the `packs` folder. Currently, we have two modules: `landing` and `authentication`.
+The modules in this application are contained within the `packs` folder.
+Currently, we have two modules: `landing` and `authentication`.
 
 - The `landing` module handles the landing page of the application.
-- The `authentication` module manages user authentication, including sign up, log in, and log out functionality.
+- The `authentication` module manages user authentication (for ex: including sign up, log in, and log out functionality).
 
 Each module is structured as a mini Rails application, with its own models, views, controllers, and routes. This allows each module to operate independently, improving the maintainability and scalability of the application.
 
@@ -57,7 +58,8 @@ Inside the `packs` folder, create a `landing` folder.
 bin/rails g controller landing index
 ```
 
-3. Move the controllers, views, and helpers related to the `landing` page into the new `landing` app. Ensure that the file structure within the landing module follows the standard Rails conventions.
+3. Move the controllers, views, and helpers related to the `landing` page into the new `landing` app in folder `packs`.
+   Ensure that the file structure within the landing module follows the standard Rails conventions.
 
 4. Create `package.yml` to configure the package
 
@@ -81,7 +83,9 @@ dependencies:
 
 In keeping with the modular structure of our application, we've also adopted a multiple database approach.
 
-This means that each module in the application has its own dedicated database. This allows each module to manage its own data independently, further enhancing the separation of concerns within our application. For instance, the `authentication` modules each have their own databases which manages data related to user accounts and authentication.
+This means that each module in the application has its own dedicated database. This allows each module to manage its own data independently, further enhancing the separation of concerns within our application.
+
+For instance, the `authentication` modules each have their own databases which manages data related to user accounts and authentication.
 
 This approach has several benefits:
 
@@ -162,7 +166,7 @@ bundle install
 bundle exec rake graphwerk:update
 ```
 
-Now you can open packwerk.png and see the code structure and dependencies.
+Now you can open `packwerk.png` and see the code structure and dependencies.
 
 ![Packwerk Diagram](packwerk.png)
 
